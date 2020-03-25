@@ -30,3 +30,15 @@ function Toss()
 }
 Person="$( Toss $(( $RANDOM%2 )) )"
 echo $Person Play First
+# Player want to see the Board to choose valid cell to place the Value
+function showBoard()
+{
+	echo   " ______________"
+	echo " | "${Board[1]}" | " ${Board[2]}" | "${Board[3]}" | "
+	echo   " ______________"
+	echo " | "${Board[4]}" | " ${Board[5]}" | "${Board[6]}" | "
+	echo   " ______________"
+	echo " | "${Board[7]}" | " ${Board[8]}" | "${Board[9]}" | "
+	echo   " ______________"
+}
+showBoard
