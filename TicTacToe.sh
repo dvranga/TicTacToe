@@ -1,6 +1,6 @@
 # As a Player Would like to start fresh with resetting the board
 
-declare Board
+declare -A Board
 function initializeBoard()
 {
 	for (( i=1; i<10; i++ ))
