@@ -1,5 +1,4 @@
-# As a Player Would like to start fresh with resetting the board
-#As a Player want to know letter X is Assign to him and Computer is O
+
 #Player would like to begin with the toss
 function Toss()
 {
@@ -12,4 +11,4 @@ function Toss()
 	echo $Person
 }
 Person="$( Toss $(( $RANDOM%2 )) )"
-echo Person=$Person
+echo $Person Play First
