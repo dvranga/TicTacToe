@@ -11,3 +11,9 @@ function initializeBoard()
 }
 initializeBoard
 echo ${Board[@]}
+#As a Player want to know letter X is Assign to him and Computer is O
+Player=X
+Computer=O
+echo Player assigned as $Player
+echo Computer assigned as $Computer
+
