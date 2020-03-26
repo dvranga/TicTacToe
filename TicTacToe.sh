@@ -1,5 +1,5 @@
 # As a Player Would like to start fresh with resetting the board
-
+Person=''
 declare -A Board
 Winner=false
 echo $Winner
@@ -124,7 +124,7 @@ if [ $Winner = false ]
 then
 	while [ ${Board[$NonEmptyCells]} != 0 ]
 	do
-		if [ $NonEmptyCells -eq 9]
+		if [ $NonEmptyCells -eq 9 ]
 		then
 			showBoard
 			echo game is Tie
@@ -136,10 +136,19 @@ then
 	done
 fi
 }
-
+function changeTurn()
+{
+echo "if nobody win the game and not it tie then give turn to opponent"
+if [ Person = Player ]
+then
+	Person=Computer
+fi
+echo next Turn is $Person
+}
 function check()
 {
 win
-#tie
+tie
+changeTurn
 }
 check
