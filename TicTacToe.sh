@@ -2,6 +2,7 @@
 
 declare -A Board
 Winner=false
+echo $Winner
 NonEmptyCells=1
 function initializeBoard()
 {
@@ -50,7 +51,7 @@ index=1
 counter=1
 while [ $counter -le 3 ]
 do
-if [ Winner == false ]
+if [ $Winner = false ]
 then
 	if [[ ${Board[$index]} -eq ${Board[$index+3]} ]] && [[ ${Board[$index+3]} -eq ${Board[$index+6]} ]]
 	then
@@ -90,7 +91,7 @@ index=1
 counter=1
 while [ $counter -le 2 ]
 do
-if [ Winner == false ]
+if [ $Winner = false ]
 then
 	if [[ ${Board[$index]} -eq ${Board[$index+4]} ]] && [[ ${Board[$index+4]} -eq ${Board[$index+8]} ]]
 	then
@@ -119,7 +120,7 @@ diagonal
 }
 function tie()
 {
-if [ Winner == false ]
+if [ $Winner = false ]
 then
 	while [ ${Board[$NonEmptyCells]} != 0 ]
 	do
@@ -139,6 +140,6 @@ fi
 function check()
 {
 win
-tie
+#tie
 }
 check
