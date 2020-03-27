@@ -115,56 +115,6 @@ function tie()
 		fi
 	done
 }
-function cornerCheck()
-{
-if [ $comWinMove = false ]
-then
-	for(( i=1; i<=BoardIndex;i=$(($i+2)) ))
-	do
-	if [ ${board[$i]} == '-' ]
-	then
-		computerMove=$i
-	board[$computerMove]=$computer
-	compWinMove=true
-	break
-	fi
-	if [ $i -eq 3 ]
-	then
-		i=$(($i+2))
-	fi
-	done
-fi
-}
-function middleCheck()
-{
-middle=5
-if [[ $compWinMove = false ]] && [[ ${Board[$middle]} = '-' ]]
-then
-computerMove=$middle
-Board{$computerMove]=$computer
-comoWinMove=true
-fi
-}
-function randomCheck(){
-if [ $compWinMove = false ]
-then
-	for(( i=2; i<=BoardIndex;i=$(($+2)) ))
-	do
-	if [ $Board[$i]} == '-' ]
-	then
-		computerMove=$i
-	Board[$computerMove]=$computer
-	compWinMove=true
-	break
-	fi
-	if [ $i -eq 3 ] || [ $i -eq 6 ]
-	then
-		i=$(($i+1))
-	fi
-	done
-fi
-}
-
 function checkWinningMove()
 {
 counter=1;
@@ -258,9 +208,6 @@ winMove=false
 echo "Computer is playing"
 checkWinningMove $row $column
 checkWinningMove $column $row
-cornerCheck
-middleCheck
-randomCheck
 POSITION=$(( RANDOM%9+1 ))
 if [ $winMove == false ]
 then
