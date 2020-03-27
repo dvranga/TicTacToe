@@ -2,8 +2,20 @@
 Person=''
 declare -A Board
 Winner=false
-echo $Winner
+Head=1;
+Tail=0;
+GameStatus=1
+NumberofRows=3
+NumberofColumns=3
+BoardPosition=10
+PlayerTurn=false
+turn=0
+Player=''
+Computer=''
 NonEmptyCells=1
+ComputerMove=0
+PlayerMove=0
+compWinMove=false
 function initializeBoard()
 {
 	for (( i=1; i<10; i++ ))
@@ -12,27 +24,7 @@ function initializeBoard()
 	done
 
 }
-initializeBoard
-echo ${Board[@]}
-#As a Player want to know letter X is Assign to him and Computer is O
-Player=X
-Computer=O
-echo Player assigned as $Player
-echo Computer assigned as $Computer
-
 #Player would like to begin with the toss
-function Toss()
-{
-	case $1 in
-		1)
-		 Person="Player" ;;
-		*)
-		 Person="Computer" ;;
-	esac
-	echo $Person
-}
-Person="$( Toss $(( $RANDOM%2 )) )"
-echo $Person Play First
 # Player want to see the Board to choose valid cell to place the Value
 function showBoard()
 {
@@ -91,8 +83,6 @@ index=1
 counter=1
 while [ $counter -le 2 ]
 do
-if [ $Winner = false ]
-then
 	if [[ ${Board[$index]} -eq ${Board[$index+4]} ]] && [[ ${Board[$index+4]} -eq ${Board[$index+8]} ]]
 	then
 		showBoard
@@ -106,22 +96,12 @@ then
 		break
 	fi
 	counter=$(( $counter+1 ))
-fi
 echo $person
 counter=$(( $counter+1 ))
 done
 }
-value=false
-function win()
-{
-horizontal
-vertical
-diagonal
-}
 function tie()
 {
-if [ $Winner = false ]
-then
 	while [ ${Board[$NonEmptyCells]} != 0 ]
 	do
 		if [ $NonEmptyCells -eq 9 ]
@@ -134,21 +114,201 @@ then
 			NonEmptyCells=$(( $nonEmptyCells+1 ))
 		fi
 	done
-fi
 }
-function changeTurn()
+function cornerCheck()
 {
-echo "if nobody win the game and not it tie then give turn to opponent"
-if [ Person = Player ]
+if [ $comWinMove = false ]
 then
-	Person=Computer
+	for(( i=1; i<=BoardIndex;i=$(($i+2)) ))
+	do
+	if [ ${board[$i]} == '-' ]
+	then
+		computerMove=$i
+	board[$computerMove]=$computer
+	compWinMove=true
+	break
+	fi
+	if [ $i -eq 3 ]
+	then
+		i=$(($i+2))
+	fi
+	done
 fi
-echo next Turn is $Person
 }
-function check()
+function middleCheck()
 {
-win
-tie
-changeTurn
+middle=5
+if [[ $compWinMove = false ]] && [[ ${Board[$middle]} = '-' ]]
+then
+computerMove=$middle
+Board{$computerMove]=$computer
+comoWinMove=true
+fi
 }
-check
+function randomCheck(){
+if [ $compWinMove = false ]
+then
+	for(( i=2; i<=BoardIndex;i=$(($+2)) ))
+	do
+	if [ $Board[$i]} == '-' ]
+	then
+		computerMove=$i
+	Board[$computerMove]=$computer
+	compWinMove=true
+	break
+	fi
+	if [ $i -eq 3 ] || [ $i -eq 6 ]
+	then
+		i=$(($i+1))
+	fi
+	done
+fi
+}
+
+function checkWinningMove()
+{
+counter=1;
+winMove=false
+for (( i=1; i<=3; i++ ))
+do
+	if [[ ${Board[$counter]} == ${Board[$counter+$1+$1]} ]] && [[ ${Board[$counter+$1]} == 0 ]] && [[ ${Board[$counter]}=='O' ]]
+	then
+		computerMove=$(( $counter+$1 ))
+		echo "winning movie is "$computerMove
+		Board[$computerMove]=$Computer
+		winMove=true
+		break
+	elif [[ ${Board[$counter]} == ${Board[$counter+$1]} ]] && [[ ${Board[$counter+$1+$1]} == 0 ]] && [[ ${Board[$counter+$1]}=='O' ]]
+	then
+		computerMove=$(( $counter+$1+$1 ))
+		echo "winning movie is "$computerMove
+		Board[$computerMove]=$Computer
+		winMove=true
+		break
+	elif [[ ${Board[$counter+$1]} == ${Board[$counter+$1+$1]} ]] && [[ ${Board[$counter]} == 0 ]] && [[ ${Board[$counter+$1]}=='O' ]]
+	then
+		computerMove=$counter
+		echo "winning movie is "$computerMove
+		Board[$computerMove]=$Computer
+		winMove=true
+		break
+	fi
+	counter = $(( $counter + $2 ))
+done
+}
+function checkWinningMovePlayer()
+{
+counter=1
+winMove=false
+for (( i=1; i<=3; i++ ))
+do
+	if [[ ${Board[$counter]} == ${Board[$counter+$1+$1]} ]] && [[ ${Board[$counter+$1]} == 0 ]] && [[ ${Board[$counter]}=='X' ]]
+	then
+		playerMove=$(( $counter+$1 ))
+		echo "winning movie is "$playerMove
+		Board[$playerMove]=$Player
+		winMove=true
+		break
+	elif [[ ${Board[$counter]} == ${Board[$counter+$1]} ]] && [[ ${Board[$counter+$1+$1]} == 0 ]] && [[ ${Board[$counter+$1]}=='X' ]]
+	then
+		playerMove=$(( $counter+$1+$1 ))
+		echo "winning movie is "$playerMove
+		Board[$playerMove]=$Player
+		winMove=true
+		break
+	elif [[ ${Board[$counter+$1]} == ${Board[$counter+$1+$1]} ]] && [[ ${Board[$counter]} == 0 ]] && [[ ${Board[$counter+$1]}=='X' ]]
+	then
+		playerMove=$counter
+		echo "winning movie is "$playerMove
+		Board[$playerMove]=$Player
+		winMove=true
+		break
+	fi
+counter=$(( $counter+$2 ))
+done
+}
+function userInput()
+{
+row=1
+column=3
+winMovePlayer=false
+read -p "enter you Position in the Board " POSITION
+checkWinningMovePlayer $row $column
+checkWinnigMovePlayer $column $row
+if [ $winMovePlayer == false ]
+then
+	if [ ${board[$POSITION]} -eq $TAIL ]
+	then
+		echo "player Turn"
+		Board[$POSITION]=$Player
+		showBoard
+		turn=$(( $turn + 1 ))
+	else
+		echo "Invalid input"
+		user Input
+	fi
+fi
+	playerTurn=false
+}
+function computerInput()
+{
+row=1
+colummn=3
+winMove=false
+echo "Computer is playing"
+checkWinningMove $row $column
+checkWinningMove $column $row
+cornerCheck
+middleCheck
+randomCheck
+POSITION=$(( RANDOM%9+1 ))
+if [ $winMove == false ]
+then
+	if [ ${board[$POSITION]} == $TAIL ]
+	then
+		Board[$POSITION] == $Computer
+	else
+		echo "wrong move"
+		computer Input
+	fi
+fi
+	playerTurn=true
+}
+computerInput
+function toss()
+{
+checkToss=$(( $RANDOM%2 ))
+	if [[ $checkToss -eq $Head ]]
+	then
+		PlayerTurn=true
+		Player='X'
+		Computer='O'
+		echo "Player play first"
+		showBoard
+	else
+		Player='X'
+		Computer='O'
+		echo "Computer Play first"
+	fi
+
+}
+initializeBoard
+showBoard
+while [ $Winner == false ]
+do
+	showBoard
+	if [ $PlayerTurn == true ]
+	then
+		userInput
+		horizontal $Player
+		vertical $Player
+		diagonal $Player
+		tie $Player
+	else
+		computerInput
+		horizontal $Computer
+		vertical $Computer
+		diagonal $Computer
+		tie $Computer
+	fi
+done
