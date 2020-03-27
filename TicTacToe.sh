@@ -13,9 +13,7 @@ turn=0
 Player=''
 Computer=''
 NonEmptyCells=1
-ComputerMove=0
 PlayerMove=0
-compWinMove=false
 function initializeBoard()
 {
 	for (( i=1; i<10; i++ ))
@@ -115,87 +113,6 @@ function tie()
 		fi
 	done
 }
-function cornerCheck()
-{
-if [ $comWinMove = false ]
-then
-	for(( i=1; i<=BoardIndex;i=$(($i+2)) ))
-	do
-	if [ ${board[$i]} == '-' ]
-	then
-		computerMove=$i
-	board[$computerMove]=$computer
-	compWinMove=true
-	break
-	fi
-	if [ $i -eq 3 ]
-	then
-		i=$(($i+2))
-	fi
-	done
-fi
-}
-function middleCheck()
-{
-middle=5
-if [[ $compWinMove = false ]] && [[ ${Board[$middle]} = '-' ]]
-then
-computerMove=$middle
-Board{$computerMove]=$computer
-comoWinMove=true
-fi
-}
-function randomCheck(){
-if [ $compWinMove = false ]
-then
-	for(( i=2; i<=BoardIndex;i=$(($+2)) ))
-	do
-	if [ $Board[$i]} == '-' ]
-	then
-		computerMove=$i
-	Board[$computerMove]=$computer
-	compWinMove=true
-	break
-	fi
-	if [ $i -eq 3 ] || [ $i -eq 6 ]
-	then
-		i=$(($i+1))
-	fi
-	done
-fi
-}
-
-function checkWinningMove()
-{
-counter=1;
-winMove=false
-for (( i=1; i<=3; i++ ))
-do
-	if [[ ${Board[$counter]} == ${Board[$counter+$1+$1]} ]] && [[ ${Board[$counter+$1]} == 0 ]] && [[ ${Board[$counter]}=='O' ]]
-	then
-		computerMove=$(( $counter+$1 ))
-		echo "winning movie is "$computerMove
-		Board[$computerMove]=$Computer
-		winMove=true
-		break
-	elif [[ ${Board[$counter]} == ${Board[$counter+$1]} ]] && [[ ${Board[$counter+$1+$1]} == 0 ]] && [[ ${Board[$counter+$1]}=='O' ]]
-	then
-		computerMove=$(( $counter+$1+$1 ))
-		echo "winning movie is "$computerMove
-		Board[$computerMove]=$Computer
-		winMove=true
-		break
-	elif [[ ${Board[$counter+$1]} == ${Board[$counter+$1+$1]} ]] && [[ ${Board[$counter]} == 0 ]] && [[ ${Board[$counter+$1]}=='O' ]]
-	then
-		computerMove=$counter
-		echo "winning movie is "$computerMove
-		Board[$computerMove]=$Computer
-		winMove=true
-		break
-	fi
-	counter = $(( $counter + $2 ))
-done
-}
 function checkWinningMovePlayer()
 {
 counter=1
@@ -250,31 +167,6 @@ then
 fi
 	playerTurn=false
 }
-function computerInput()
-{
-row=1
-colummn=3
-winMove=false
-echo "Computer is playing"
-checkWinningMove $row $column
-checkWinningMove $column $row
-cornerCheck
-middleCheck
-randomCheck
-POSITION=$(( RANDOM%9+1 ))
-if [ $winMove == false ]
-then
-	if [ ${board[$POSITION]} == $TAIL ]
-	then
-		Board[$POSITION] == $Computer
-	else
-		echo "wrong move"
-		computer Input
-	fi
-fi
-	playerTurn=true
-}
-computerInput
 function toss()
 {
 checkToss=$(( $RANDOM%2 ))
